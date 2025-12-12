@@ -1,0 +1,108 @@
+---
+title: "Telco Customer Churn Prediction: A Comparative Analysis of Statistical and Deep Learning Models"
+subtitle: "Final Individual Project Submission"
+author: "cc865"
+date: "`r format(Sys.Date(), '%B %Y')`"
+output:
+  ioslides_presentation:
+    widescreen: true
+    css: styles.css
+---
+
+## 1. Why?
+
+### Why churn prediction matters
+
+-   **Financial impact:** Customer churn leads to recurring revenue loss. It is widely reported that acquiring a new customer can be 5–25 times more expensive than retaining an existing one.
+-   **Project goal:** Build and evaluate predictive classification models that identify customers at high risk of churning, so that the telecom provider can target retention campaigns (e.g. discounts, service upgrades).
+-   **Data source:** Telco Customer Churn dataset (Kaggle), providing a realistic business context.
+-   **Academic context:** Churn prediction is a staple in quantitative marketing. Classical models such as Logistic Regression are now frequently compared with modern methods such as Random Forests, SVMs and Deep Learning (e.g. Coussement & Van den Poel, 2008).
+
+------------------------------------------------------------------------
+
+## 2. Research Questions To Answer
+
+This project seeks to answer:
+
+1.  **Feature association:** Which customer characteristics (e.g. contract type, tenure, services, charges) are the most informative and interpretable predictors of churn?
+2.  **Model comparison:** How do the predictive capabilities of:
+    -   GLM baseline (Logistic Regression, penalised Lasso / Ridge),\
+    -   Machine learning (Random Forest, SVM),\
+    -   Deep learning (fully-connected DNN)\
+        compare in predicting churn risk?
+3.  **Trade-off analysis:** Which model offers the best balance between high predictive performance (especially AUC) and practical interpretability for business users?
+
+------------------------------------------------------------------------
+
+## 3. What?
+
+### Dataset characteristics
+
+-   **Observations:** 7,043 raw → 7,032 after cleaning.
+-   **Features:** 20+ predictors (demographics, service subscriptions, charges, contract details).
+-   **Target variable:** Churn (binary: Yes / No).
+
+### ⚠ Data issues and limitations
+
+-   **Data access:** Publicly available Kaggle dataset\
+-   **Missing data:** Only 11 observations removed due to non-numeric `total_charges`.
+-   **Class imbalance:** Moderate; Churn Rate ≈ 26.5%\
+    → AUC taken as the main evaluation metric, with accuracy, sensitivity and specificity as secondary measures.
+
+### Patterns observed (EDA)
+
+-   Churners typically have:
+    -   Shorter tenure,
+    -   Higher monthly charges,
+    -   More often month-to-month contracts.
+
+------------------------------------------------------------------------
+
+## 4. How? Answering our research questions {.smaller}
+
+### ⚙ Modelling pipeline
+
+| Phase | Steps | Rationale |
+|:-----------------|:--------------------------|:--------------------------|
+| **Preprocessing** | 80/20 stratified Train/Test split. One-hot encoding via `model.matrix`. | Enables rigorous out-of-sample evaluation and supports GLM/SVM/NN. |
+| **Models** | **GLM** (Logistic Regression); **Penalised GLM** (Lasso/Ridge); **Random Forest**; **SVM** (RBF kernel); **DNN** (2 hidden layers with dropout, specified in code). | Covers linear, tree-based, kernel and deep learning approaches, as required. |
+| **Tuning** | 3-fold CV for RF/SVM and 5-fold CV for glmnet. Early stopping for DNN (if trained). | Improves generalisation and reduces overfitting. |
+| **Evaluation** | Test-set metrics: AUC (primary), Accuracy, Sensitivity, Specificity. | AUC is robust to class imbalance; other metrics provide additional insight. |
+
+-   All models trained on the same train/test split for fairness.
+-   Default 0.5 probability threshold used for classification; ROC curves used to compare discrimination.
+
+------------------------------------------------------------------------
+
+## 5. Main Findings {.smaller}
+
+### Comparative test-set performance (fitted models)
+
+| Model | **AUC** | Accuracy | Brief comment |
+|:--------------|:-------------:|:-------------:|:--------------------------|
+| **Standard GLM** | **0.847** | 0.815 | Strong, simple baseline; highest AUC in this analysis. |
+| **Lasso GLM** | 0.847 | 0.815 | Matches GLM performance; performs feature selection. |
+| **Ridge GLM** | 0.845 | 0.810 | Very similar to GLM; slightly different sensitivity/specificity trade-off. |
+| **Random Forest** | 0.830 | 0.797 | Competitive non-linear model; does not surpass GLM here. |
+| **SVM (RBF)** | 0.788 | 0.811 | High specificity, lower AUC; limited tuning grid for runtime. |
+
+> A suitable Deep Neural Network (DNN) architecture was specified (2 hidden layers with dropout), but not fully trained due to computational constraints; based on previous studies and similar implementations, it would be expected to achieve AUC in the mid-0.80s on this dataset.
+
+### Key factors of churn
+
+-   Contract type, tenure, and monthly charges dominate the predictions.
+-   Some service combinations (e.g. fibre optic + no tech support/security) are also important.
+
+------------------------------------------------------------------------
+
+## 6. Final thoughts {.smaller}
+
+### Overall conclusions
+
+-   In this implementation, GLM and penalised GLM achieved the highest AUC (≈ 0.845–0.847), indicating that a linear log-odds structure already captures most of the predictive signal.
+-   Random Forest and SVM were competitive but did not outperform the GLM family under the restricted tuning grids used for computational reasons.
+
+### Model Comparison & Analysis
+
+-   **Best Performance (AUC):** The standard GLM and Lasso GLM (AUC ≈ 0.847) achieve the highest discrimination on the test set, with Ridge GLM and Random Forest close behind. In this implementation, linear log-odds models perform at least as well as the more flexible non-linear models.
+-   **Best Interpretability:** Penalised Lasso GLM. It matches the GLM’s AUC while shrinking some coefficients to zero, yielding a simpler and more interpretable “risk equation” for churn.

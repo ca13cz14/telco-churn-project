@@ -1,0 +1,153 @@
+/* styles.css – clean, simple, student-friendly theme for ioslides */
+
+/* General page background */
+html,
+body {
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #222222;
+  margin: 0;
+  padding: 0;
+}
+
+/* DO NOT change slide positioning (ioslides handles full-screen layout).
+   Just adjust look & feel: colours, padding, typography. */
+slides > slide {
+  background-color: #ffffff;
+  padding: 40px 60px;      /* inner padding only */
+  font-size: 18px;         /* base text size (unchanged) */
+  line-height: 1.25;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+/* Slightly smaller text for dense slides marked {.smaller} */
+slides > slide.smaller {
+  font-size: 16px;         /* unchanged */
+  line-height: 1.22;
+}
+
+/* Slide headings */
+slides > slide h2 {
+  font-size: 135%;         /* unchanged */
+  font-weight: 600;
+  color: #004f9f;          /* subtle blue accent */
+  margin-top: 0.1em;
+  margin-bottom: 0.2em;
+}
+
+slides > slide h3 {
+  font-size: 110%;         /* unchanged */
+  font-weight: 500;
+  color: #333333;
+  margin-top: 0.1em;
+  margin-bottom: 0.25em;
+}
+
+/* Bring first paragraph/list closer to the heading */
+slides > slide h2 + p,
+slides > slide h2 + ul,
+slides > slide h3 + p,
+slides > slide h3 + ul {
+  margin-top: 0.1em;
+}
+
+/* Paragraph spacing */
+slides > slide p {
+  margin-top: 0.15em;
+  margin-bottom: 0.4em;
+}
+
+/* Bullet lists – slightly tighter and indented */
+slides > slide ul {
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
+  padding-left: 1.3em;
+}
+
+/* Nested lists slightly more indented for clarity */
+slides > slide ul ul {
+  padding-left: 1.1em;
+}
+
+/* List items */
+slides > slide li {
+  margin-bottom: 0.15em;
+}
+
+/* Tables – compact, with subtle borders */
+slides > slide table {
+  font-size: 85%;          /* unchanged */
+  border-collapse: collapse;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+slides > slide table th,
+slides > slide table td {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+slides > slide table th {
+  font-weight: 600;
+  background-color: #f0f4fa;
+}
+
+/* Links */
+slides > slide a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+slides > slide a:hover {
+  text-decoration: underline;
+}
+
+/* Title slide tweaks */
+slides > slide.title-slide {
+  text-align: left;
+  background: linear-gradient(135deg, #004f9f, #007acc);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+slides > slide.title-slide h1,
+slides > slide.title-slide h2,
+slides > slide.title-slide h3 {
+  color: #ffffff;
+}
+
+slides > slide.title-slide p {
+  color: #f0f0f0;
+}
+
+/* Title slide spacing */
+slides > slide.title-slide h1 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+slides > slide.title-slide h2 {
+  margin-top: 0.1em;
+  margin-bottom: 0.3em;
+}
+
+/* Code snippets (if any) */
+slides > slide pre,
+slides > slide code {
+  font-family: "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 90%;
+}
+
+/* Avoid horizontal overflow from long words/URLs */
+slides > slide {
+  word-wrap: break-word;
+}
+
+
+
+
